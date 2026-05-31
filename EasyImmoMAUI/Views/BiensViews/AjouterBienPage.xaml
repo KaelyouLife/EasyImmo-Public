@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:behaviors="clr-namespace:EasyImmoMAUI.Behaviors"
+    x:Class="EasyImmoMAUI.Views.AjouterBienPage"
+    Title="Ajouter un bien"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="#F5F6FA">
+
+    <Grid ColumnDefinitions="240,*">
+
+        <components:SidebarView Grid.Column="0"
+                                CurrentPage="Biens" />
+
+        <ScrollView Grid.Column="1">
+            <VerticalStackLayout Padding="30"
+                                 Spacing="24">
+
+                <Label Text="Ajouter un bien"
+                       FontSize="34"
+                       FontAttributes="Bold"
+                       TextColor="#1D1D1F" />
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Identification" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" />
+                        <Entry Placeholder="Référence *" Text="{Binding Reference}" TextColor="Black" TextTransform="Uppercase" />
+                        <Entry Placeholder="Titre de l'annonce *" Text="{Binding TitreAnnonce}" TextColor="Black" />
+                        <Picker Title="Type de bien *"
+                                ItemsSource="{Binding TypesBien}"
+                                ItemDisplayBinding="{Binding Libelle}"
+                                SelectedItem="{Binding TypeBienSelectionne}"
+                                TextColor="Black" />
+                        <Picker Title="Statut *"
+                                ItemsSource="{Binding StatutsBien}"
+                                ItemDisplayBinding="{Binding Libelle}"
+                                SelectedItem="{Binding StatutSelectionne}"
+                                TextColor="Black" />
+                        <Picker Title="PEB *"
+                                ItemsSource="{Binding PebOptions}"
+                                SelectedItem="{Binding PebSelectionne}"
+                                TextColor="Black" />
+                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="20" Padding="0,8">
+                            <Label Grid.Column="0" Text="Libre" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding EstLibre}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Adresse" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" />
+                        <Entry Placeholder="Rue" Text="{Binding Rue}" TextColor="Black" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Numéro" Text="{Binding Numero}" TextColor="Black">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Boîte" Text="{Binding Boite}" TextColor="Black">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Code postal *" Text="{Binding CodePostal}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Commune *" Text="{Binding Commune}" TextColor="Black" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Prix" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" />
+                        <Entry Placeholder="Prix de vente (€)" Text="{Binding PrixVente}" TextColor="Black" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry Placeholder="Loyer mensuel (€)" Text="{Binding LoyerMensuel}" TextColor="Black" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry Placeholder="Charges mensuelles (€)" Text="{Binding ChargesMensuelles}" TextColor="Black" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Surfaces &amp; pièces" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Surface habitable (m²)" Text="{Binding SurfaceHabitable}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Surface totale (m²)" Text="{Binding SurfaceTotale}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Nbre de pièces" Text="{Binding NombrePieces}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Nbre de chambres" Text="{Binding NombreChambres}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Nbre salles de bain" Text="{Binding NombreSalleBain}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Nbre WC séparés" Text="{Binding NombreWc}" TextColor="Black" Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Entry Placeholder="Année de construction" Text="{Binding AnneeConstruction}" TextColor="Black" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Description &amp; technique" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" />
+                        <Editor Placeholder="Description du bien"
+                                Text="{Binding Description}"
+                                TextColor="Black"
+                                AutoSize="TextChanges"
+                                MinimumHeightRequest="100" />
+                        <Entry Placeholder="Type de chauffage" Text="{Binding Chauffage}" TextColor="Black" />
+                        <Entry Placeholder="Isolation" Text="{Binding Isolation}" TextColor="Black" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="24" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                    <Border.Shadow>
+                        <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Équipements" FontAttributes="Bold" FontSize="16" TextColor="#4F63FF" Margin="0,0,0,10" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Ascenseur" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Ascenseur}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Cuisine équipée" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding CuisineEquipee}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Cave" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Cave}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Grenier" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Grenier}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Garage" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Garage}" OnColor="#4F63FF" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="#F0F0F0" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Jardin" VerticalOptions="Center" TextColor="Black" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Jardin}" OnColor="#4F63FF" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Enregistrer"
+                        Clicked="OnSaveClicked"
+                        BackgroundColor="#4F63FF"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="16"
+                        HeightRequest="50"
+                        Margin="0,0,0,30" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

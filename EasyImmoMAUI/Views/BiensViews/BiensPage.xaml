@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:buttons="clr-namespace:EasyImmoMAUI.Views.Components.Buttons"
+    x:Class="EasyImmoMAUI.Views.BienViews.BiensPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Biens" />
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" Padding="30">
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,16"
+                  ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Biens" Style="{StaticResource PageTitle}" />
+                    <Label Text="Vue d'ensemble de vos biens immobiliers"
+                           Style="{StaticResource PageSubtitle}" />
+                </VerticalStackLayout>
+                <buttons:PrimaryButton Grid.Column="1"
+                    ButtonText="+ Ajouter un bien"
+                    Clicked="OnAjouterBienClicked" />
+            </Grid>
+
+            <!-- Barre de recherche -->
+            <Border Grid.Row="1"
+                    BackgroundColor="{StaticResource AppSurface}"
+                    StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                    Padding="12,0" Margin="0,0,0,20">
+                <Grid ColumnDefinitions="20,*">
+                    <Entry Grid.Column="1"
+                           Placeholder="Rechercher un bien..."
+                           Text="{Binding Recherche}"
+                           TextColor="{StaticResource AppTextPrimary}"
+                           PlaceholderColor="{StaticResource AppTextSecondary}"
+                           VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Liste des biens -->
+            <CollectionView Grid.Row="2" ItemsSource="{Binding Biens}">
+                <CollectionView.EmptyView>
+                    <Label Text="Aucun bien trouvé."
+                           Style="{StaticResource SecondaryText}"
+                           HorizontalOptions="Center" Margin="0,40" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="3"
+                                     HorizontalItemSpacing="24"
+                                     VerticalItemSpacing="24" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <components:BienCardView
+                            BienId="{Binding BienId}"
+                            PhotoSource="{Binding PhotoPrincipale}"
+                            TitreAnnonce="{Binding TitreAnnonce}"
+                            TypeBien="{Binding TypeBien}"
+                            CodePostal="{Binding CodePostal}"
+                            Commune="{Binding Commune}"
+                            Statut="{Binding Statut}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OuvrirDetailBienCommand}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

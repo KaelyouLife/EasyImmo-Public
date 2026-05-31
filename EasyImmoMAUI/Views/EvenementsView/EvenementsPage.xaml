@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:buttons="clr-namespace:EasyImmoMAUI.Views.Components.Buttons"
+    x:Class="EasyImmoMAUI.Views.EvenementsView.EvenementsPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Evenements" />
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" Padding="30">
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,20"
+                  ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Événements" Style="{StaticResource PageTitle}" />
+                    <Label Text="Gérez vos rendez-vous et événements" Style="{StaticResource PageSubtitle}" />
+                </VerticalStackLayout>
+                <buttons:PrimaryButton Grid.Column="1"
+                    ButtonText="+ Ajouter un événement"
+                    Clicked="OnAjouterClicked" />
+            </Grid>
+
+            <!-- Contenu principal -->
+            <Grid Grid.Row="1" ColumnDefinitions="*,320" ColumnSpacing="20">
+
+                <Grid Grid.Column="0" RowDefinitions="Auto,Auto,*" RowSpacing="12">
+                    <!-- Filtres -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*,160" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource AppSurface}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                Padding="12,0">
+                            <Grid ColumnDefinitions="20,*">
+                                <Entry Grid.Column="1"
+                                       Placeholder="Rechercher..."
+                                       Text="{Binding Recherche}"
+                                       TextColor="{StaticResource AppTextPrimary}"
+                                       PlaceholderColor="{StaticResource AppTextSecondary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1"
+                                BackgroundColor="{StaticResource AppSurface}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                Padding="4,0">
+                            <Picker ItemsSource="{Binding TypesEvenementFiltre}"
+                                    SelectedItem="{Binding TypeFiltreSelectionne}"
+                                    ItemDisplayBinding="{Binding Libelle}"
+                                    Title="Type"
+                                    TextColor="{StaticResource AppTextPrimary}" />
+                        </Border>
+                    </Grid>
+
+                    <!-- En-têtes -->
+                    <Grid Grid.Row="1" ColumnDefinitions="130,*,120" Padding="14,0">
+                        <Label Grid.Column="0" Text="Date" FontAttributes="Bold"
+                               TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                        <Label Grid.Column="1" Text="Description" FontAttributes="Bold"
+                               TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                        <Label Grid.Column="2" Text="Type" FontAttributes="Bold"
+                               TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                    </Grid>
+
+                    <!-- Liste -->
+                    <CollectionView Grid.Row="2"
+                                    ItemsSource="{Binding Evenements}"
+                                    SelectedItem="{Binding EvenementSelectionne}"
+                                    SelectionMode="Single">
+                        <CollectionView.EmptyView>
+                            <Label Text="Aucun événement trouvé."
+                                   Style="{StaticResource SecondaryText}"
+                                   HorizontalOptions="Center" Margin="0,20" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 10"
+                                        Padding="0" Margin="0,3">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border"
+                                                     Binding="{Binding EstAccompli}"
+                                                     Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource AppSurfaceAlt}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border"
+                                                     Binding="{Binding EstAccompli}"
+                                                     Value="False">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Grid ColumnDefinitions="4,130,*,120">
+                                        <BoxView Grid.Column="0"
+                                                 BackgroundColor="{StaticResource AppPrimary}"
+                                                 HorizontalOptions="Fill"
+                                                 VerticalOptions="Fill" />
+                                        <VerticalStackLayout Grid.Column="1"
+                                                             VerticalOptions="Center"
+                                                             Spacing="2" Margin="8,10">
+                                            <Label Text="{Binding Date}" FontSize="13"
+                                                   TextColor="{StaticResource AppTextPrimary}" />
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Image Source="clock_solid.png"
+                                                       WidthRequest="11" HeightRequest="11"
+                                                       VerticalOptions="Center" />
+                                                <Label Text="{Binding Heure}"
+                                                       Style="{StaticResource SecondaryText}"
+                                                       FontSize="12" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2"
+                                               Text="{Binding Description}"
+                                               FontSize="13"
+                                               TextColor="{StaticResource AppTextPrimary}"
+                                               VerticalOptions="Center"
+                                               LineBreakMode="TailTruncation"
+                                               Margin="0,10" />
+                                        <components:StatusBadgeView Grid.Column="3"
+                                            Text="{Binding TypeLibelle}"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                            Margin="0,10" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+                <ScrollView Grid.Column="1">
+                    <VerticalStackLayout Spacing="16">
+
+                        <Border Style="{StaticResource CardSmall}"
+                                IsVisible="{Binding FormulaireVisible}">
+                            <VerticalStackLayout Spacing="14">
+                                <Label Text="{Binding TitreFormulaire}"
+                                       Style="{StaticResource SectionHeader}" />
+
+                                <Entry Placeholder="Description"
+                                       Text="{Binding FormDescription}"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Entry Grid.Column="0" Placeholder="Date (JJ/MM/AAAA)"
+                                           Text="{Binding FormDate}"
+                                           TextColor="{StaticResource AppTextPrimary}" />
+                                    <Entry Grid.Column="1" Placeholder="Heure (HH:MM)"
+                                           Text="{Binding FormHeure}"
+                                           TextColor="{StaticResource AppTextPrimary}" />
+                                </Grid>
+
+                                <Border BackgroundColor="{StaticResource AppSurface}"
+                                        StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                        Padding="4,0">
+                                    <Picker ItemsSource="{Binding TypesEvenement}"
+                                            SelectedItem="{Binding FormTypeSelectionne}"
+                                            ItemDisplayBinding="{Binding Libelle}"
+                                            Title="Type d'événement *"
+                                            TextColor="{StaticResource AppTextPrimary}" />
+                                </Border>
+
+                                <Border BackgroundColor="{StaticResource AppSurface}"
+                                        StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                        Padding="4,0">
+                                    <Picker ItemsSource="{Binding Biens}"
+                                            SelectedItem="{Binding FormBienSelectionne}"
+                                            ItemDisplayBinding="{Binding TitreAnnonce}"
+                                            Title="Bien lié (optionnel)"
+                                            TextColor="{StaticResource AppTextPrimary}" />
+                                </Border>
+
+                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                <Label Text="Participants" Style="{StaticResource SectionHeader}" />
+
+                                <Grid ColumnDefinitions="*,120,Auto" ColumnSpacing="8">
+                                    <Border Grid.Column="0"
+                                            BackgroundColor="{StaticResource AppSurface}"
+                                            StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                            Padding="4,0">
+                                        <Picker ItemsSource="{Binding Personnes}"
+                                                SelectedItem="{Binding FormPersonneSelectionnee}"
+                                                ItemDisplayBinding="{Binding NomComplet}"
+                                                Title="Personne"
+                                                TextColor="{StaticResource AppTextPrimary}" />
+                                    </Border>
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="{StaticResource AppSurface}"
+                                            StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                            Padding="4,0">
+                                        <Picker ItemsSource="{Binding RolesEvenement}"
+                                                SelectedItem="{Binding FormRoleSelectionne}"
+                                                ItemDisplayBinding="{Binding Libelle}"
+                                                Title="Rôle"
+                                                TextColor="{StaticResource AppTextPrimary}" />
+                                    </Border>
+                                    <buttons:PrimaryButton Grid.Column="2"
+                                        ButtonText="+"
+                                        Clicked="OnAjouterParticipantClicked" />
+                                </Grid>
+
+                                <CollectionView ItemsSource="{Binding FormParticipants}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,Auto" Margin="0,2">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding Nom}"
+                                                       FontSize="13"
+                                                       TextColor="{StaticResource AppTextPrimary}"
+                                                       VerticalOptions="Center" />
+                                                <Image Grid.Column="1"
+                                                       Source="trash_solid.png"
+                                                       WidthRequest="14" HeightRequest="14"
+                                                       VerticalOptions="Center">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Tapped="OnRetirerParticipantClicked"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <buttons:PrimaryButton Grid.Column="0"
+                                        ButtonText="Enregistrer"
+                                        Clicked="OnEnregistrerClicked" />
+                                    <buttons:SecondaryButton Grid.Column="1"
+                                        ButtonText="Annuler"
+                                        Clicked="OnAnnulerClicked" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Style="{StaticResource CardSmall}"
+                                IsVisible="{Binding AEvenementSelectionne}">
+                            <VerticalStackLayout Spacing="12">
+                                <Label Text="Détail de l'événement"
+                                       Style="{StaticResource SectionHeader}" />
+
+                                <Label Text="{Binding EvenementSelectionne.Description}"
+                                       FontSize="16" FontAttributes="Bold"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+
+                                <HorizontalStackLayout Spacing="8">
+                                    <components:StatusBadgeView
+                                        Text="{Binding EvenementSelectionne.TypeLibelle}" />
+                                </HorizontalStackLayout>
+
+                                <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="clock_solid.png"
+                                           WidthRequest="14" HeightRequest="14"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding EvenementSelectionne.Date}" />
+                                                <Span Text=" à " TextColor="{StaticResource AppTextSecondary}" />
+                                                <Span Text="{Binding EvenementSelectionne.Heure}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Label Text="{Binding EvenementSelectionne.BienTitre}"
+                                       Style="{StaticResource SecondaryText}" FontSize="13" />
+
+                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                <Label Text="Participants" FontAttributes="Bold"
+                                       TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+
+                                <CollectionView ItemsSource="{Binding EvenementSelectionne.Participants}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun participant."
+                                               Style="{StaticResource SecondaryText}" FontSize="12" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <VerticalStackLayout Spacing="2" Margin="0,4">
+                                                <HorizontalStackLayout Spacing="6">
+                                                    <Label Text="{Binding Nom}"
+                                                           FontAttributes="Bold" FontSize="13"
+                                                           TextColor="{StaticResource AppTextPrimary}" />
+                                                    <components:StatusBadgeView Text="{Binding Role}" />
+                                                </HorizontalStackLayout>
+                                                <Label Text="{Binding Telephone}"
+                                                       Style="{StaticResource SecondaryText}" FontSize="12" />
+                                                <Label Text="{Binding Email}"
+                                                       Style="{StaticResource SecondaryText}" FontSize="12" />
+                                            </VerticalStackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <buttons:SecondaryButton Grid.Column="0"
+                                        ButtonText="Éditer"
+                                        Clicked="OnEditerClicked" />
+                                    <buttons:DeleteButton Grid.Column="1"
+                                        ButtonText="Supprimer"
+                                        Clicked="OnSupprimerClicked" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

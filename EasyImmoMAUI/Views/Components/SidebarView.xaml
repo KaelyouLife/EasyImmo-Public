@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="EasyImmoMAUI.Views.Components.SidebarView"
+    x:Name="Root">
+
+    <Border BackgroundColor="{StaticResource AppSidebar}"
+            StrokeThickness="0"
+            Padding="20,30">
+
+        <VerticalStackLayout Spacing="10">
+
+            <Label Text="EasyImmo"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
+                   Margin="0,0,0,20" />
+
+            <Button Text="Dashboard"
+                    Clicked="OnDashboardClicked"
+                    Style="{StaticResource SidebarButton}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference Root}, Path=CurrentPage}"
+                                 Value="Dashboard">
+                        <Setter Property="BackgroundColor" Value="{StaticResource AppSidebarActive}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Biens"
+                    Clicked="OnBiensClicked"
+                    Style="{StaticResource SidebarButton}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference Root}, Path=CurrentPage}"
+                                 Value="Biens">
+                        <Setter Property="BackgroundColor" Value="{StaticResource AppSidebarActive}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Evenements"
+                    Clicked="OnEvenementsClicked"
+                    Style="{StaticResource SidebarButton}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference Root}, Path=CurrentPage}"
+                                 Value="Evenements">
+                        <Setter Property="BackgroundColor" Value="{StaticResource AppSidebarActive}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Personnes"
+                    Clicked="OnPersonnesClicked"
+                    Style="{StaticResource SidebarButton}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference Root}, Path=CurrentPage}"
+                                 Value="Personnes">
+                        <Setter Property="BackgroundColor" Value="{StaticResource AppSidebarActive}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button Text="Reglages"
+                    Clicked="OnReglagesClicked"
+                    Style="{StaticResource SidebarButton}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference Root}, Path=CurrentPage}"
+                                 Value="Reglages">
+                        <Setter Property="BackgroundColor" Value="{StaticResource AppSidebarActive}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="EasyImmoMAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:EasyImmoMAUI.Views"
+    FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Route="DashboardPage"
+        ContentTemplate="{DataTemplate views:DashboardPage}" />
+
+    <ShellContent
+        Route="BiensPage"
+        ContentTemplate="{DataTemplate views:BienViews.BiensPage}" />
+
+    <ShellContent
+        Route="EvenementsPage"
+        ContentTemplate="{DataTemplate views:EvenementsView.EvenementsPage}" />
+
+    <ShellContent
+        Route="PersonnesPage"
+        ContentTemplate="{DataTemplate views:PersonnesView.PersonnesPage}" />
+
+    <ShellContent
+        Route="ReglagesPage"
+        ContentTemplate="{DataTemplate views:ReglagesView.ReglagesPage}" />
+</Shell>

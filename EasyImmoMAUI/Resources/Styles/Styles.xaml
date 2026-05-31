@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Titre principal d'une page -->
+    <Style x:Key="PageTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource AppTextPrimary}" />
+    </Style>
+
+    <!-- Sous-titre de page -->
+    <Style x:Key="PageSubtitle" TargetType="Label">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{StaticResource AppTextSecondary}" />
+    </Style>
+
+    <!-- En-tête de section dans une card -->
+    <Style x:Key="SectionHeader" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource AppPrimary}" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <!-- Titre de card widget -->
+    <Style x:Key="CardTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource AppTextPrimary}" />
+    </Style>
+
+    <!-- Texte secondaire -->
+    <Style x:Key="SecondaryText" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{StaticResource AppTextSecondary}" />
+    </Style>
+
+    <!-- Lien -->
+    <Style x:Key="LinkText" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource AppPrimary}" />
+    </Style>
+
+    <!-- Card principale avec coins 24 (BienCardView, sections dashboard) -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="#22000000" Offset="0,6" Radius="18" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Card secondaire avec coins 16 (sections de formulaire) -->
+    <Style x:Key="CardSmall" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}" />
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="#22000000" Offset="0,4" Radius="12" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Mini card dans une liste (items du dashboard) -->
+    <Style x:Key="CardItem" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource AppSurfaceAlt}" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Margin" Value="0,0,0,18" />
+    </Style>
+
+    <!-- Bouton principal -->
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource AppPrimary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="Margin" Value="0,0,0,30" />
+    </Style>
+
+    <!-- Bouton de la sidebar -->
+    <Style x:Key="SidebarButton" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+    </Style>
+
+    <!-- Switch -->
+    <Style x:Key="PrimarySwitch" TargetType="Switch">
+        <Setter Property="OnColor" Value="{StaticResource AppPrimary}" />
+    </Style>
+
+    <!-- Séparateur -->
+    <Style x:Key="SwitchSeparator" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{StaticResource AppSeparator}" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:buttons="clr-namespace:EasyImmoMAUI.Views.Components.Buttons"
+    x:Class="EasyImmoMAUI.Views.DetailBienPage"
+    Shell.NavBarIsVisible="False"
+    Title="DetailBienPage"
+    BackgroundColor="#F5F6FA">
+    
+    <Grid ColumnDefinitions="240,*">
+
+        <!-- Sidebar -->
+        <components:SidebarView Grid.Column="0"
+                        CurrentPage="Biens" />
+
+        <!-- Zone principale -->
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,*"
+              Padding="30">
+
+            <ScrollView Grid.Column="1">
+                <VerticalStackLayout  Spacing="0">
+
+                    <!-- HEADER -->
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,24" VerticalOptions="Center">
+
+                        <VerticalStackLayout Grid.Column="0" Spacing="10">
+                            <Label Text="{Binding Bien.TitreAnnonce}"
+                               FontSize="26" FontAttributes="Bold" TextColor="#1D1D1F" />
+                            <Border BackgroundColor="#2E7D32"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 6"
+                                HorizontalOptions="Start"
+                                Padding="10,4"
+                                IsVisible="{Binding Bien.EstLibre}">
+                                <Label Text="Disponible immédiatement !"
+                                   TextColor="White" FontSize="16" FontAttributes="Bold"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Boutons action -->
+                        <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                            <buttons:SecondaryButton 
+                                ButtonText="Éditer ce bien"
+                                Clicked="OnEditerClicked" />
+                            <buttons:DeleteButton 
+                                ButtonText="Supprimer ce bien"
+                                Clicked="OnSupprimerClicked" />
+                        </HorizontalStackLayout>
+
+                    </Grid>
+
+                    <!-- SECTION HAUTE-->
+                    <Grid ColumnDefinitions="*,380" ColumnSpacing="24" Margin="0,0,0,24">
+
+                        <!-- Photo principale -->
+                        <Border Grid.Column="0"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14"
+                            HeightRequest="280"
+                            BackgroundColor="#E0E0E0">
+                            <Image Source="{Binding PhotoPrincipale}" Aspect="AspectFill"/>
+                        </Border>
+
+                        <!-- Carte de détails -->
+                        <Border Grid.Column="1"
+                            BackgroundColor="White"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="20"
+                            VerticalOptions="Fill">
+                            <VerticalStackLayout Spacing="14">
+
+                                <!-- Prix de vente -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Text="Prix de vente :"
+                                       FontSize="15" FontAttributes="Bold"
+                                       TextColor="#1D1D1F" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1"
+                                       Text="{Binding PrixFormate}"
+                                       FontSize="18" FontAttributes="Bold"
+                                       TextColor="#4F63FF" VerticalOptions="Center"/>
+                                </Grid>
+
+                                <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Start">
+                                    <Border BackgroundColor="#43A047" StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 6" Padding="8,5" Margin="0,0,6,6">
+                                        <Label Text="{Binding PebTexte}" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                                    </Border>
+                                    <Border BackgroundColor="#E3F2FD" StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 6" Padding="8,5" Margin="0,0,6,6"
+                                        IsVisible="{Binding HasChambres}">
+                                        <Label Text="{Binding ChambresTexte}" TextColor="#1565C0" FontSize="12"/>
+                                    </Border>
+                                    <Border BackgroundColor="#E3F2FD" StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 6" Padding="8,5" Margin="0,0,6,6"
+                                        IsVisible="{Binding HasSurface}">
+                                        <Label Text="{Binding SurfaceHabitableTexte}" TextColor="#1565C0" FontSize="12"/>
+                                    </Border>
+                                    <Border BackgroundColor="#EDE7F6" StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 6" Padding="8,5" Margin="0,0,0,6"
+                                        IsVisible="{Binding Bien.Ascenseur}">
+                                        <Label Text="Ascenseur" TextColor="#5E35B1" FontSize="12"/>
+                                    </Border>
+                                </FlexLayout>
+
+                                <BoxView HeightRequest="1" Color="#F0F1F7" Margin="0,2"/>
+
+                                <!-- Tableau d'informations -->
+                                <Grid ColumnDefinitions="Auto,*"
+                                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                                  RowSpacing="10" ColumnSpacing="12">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Surface totale :"       TextColor="#3C3C43" FontSize="14"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding SurfaceTotaleTexte}"     TextColor="#4F63FF" FontSize="14" FontAttributes="Bold"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0" Text="Surface habitable :"    TextColor="#3C3C43" FontSize="14"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding SurfaceHabitableTexte}"  TextColor="#4F63FF" FontSize="14" FontAttributes="Bold"/>
+
+                                    <Label Grid.Row="2" Grid.Column="0" Text="Année de construction :" TextColor="#3C3C43" FontSize="14"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Bien.AnneeConstruction}"  TextColor="#4F63FF" FontSize="14" FontAttributes="Bold"/>
+
+                                    <Label Grid.Row="3" Grid.Column="0" Text="Statut :"               TextColor="#3C3C43" FontSize="14"/>
+                                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Bien.StatutBien.Libelle}" TextColor="#4F63FF" FontSize="14" FontAttributes="Bold"/>
+
+                                    <Label Grid.Row="4" Grid.Column="0" Text="Type :"                 TextColor="#3C3C43" FontSize="14"/>
+                                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Bien.TypeBien.Libelle}"   TextColor="#4F63FF" FontSize="14" FontAttributes="Bold"/>
+                                </Grid>
+
+                                <Label Text="{Binding Bien.Reference}"
+                                   HorizontalOptions="End" TextColor="#8F9098" FontSize="12" Margin="0,4,0,0"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </Grid>
+
+                    <!--TABS-->
+                    <Border BackgroundColor="White" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16" Padding="20">
+                        <VerticalStackLayout Spacing="0">
+
+                            <!-- En-têtes des onglets -->
+                            <Grid ColumnDefinitions="*,*,*,*,*,*">
+
+                                <VerticalStackLayout Grid.Column="0" Spacing="0">
+                                    <Label x:Name="TabLabelInformations" Text="Informations"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#4F63FF" FontAttributes="Bold" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Informations"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorInformations" HeightRequest="2" Color="#4F63FF" IsVisible="True"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                    <Label x:Name="TabLabelDocuments" Text="Documents"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#8F9098" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Documents"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorDocuments" HeightRequest="2" Color="#4F63FF" IsVisible="False"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="2" Spacing="0">
+                                    <Label x:Name="TabLabelEvenements" Text="Événements"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#8F9098" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Evenements"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorEvenements" HeightRequest="2" Color="#4F63FF" IsVisible="False"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="3" Spacing="0">
+                                    <Label x:Name="TabLabelContacts" Text="Contacts"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#8F9098" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Contacts"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorContacts" HeightRequest="2" Color="#4F63FF" IsVisible="False"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="4" Spacing="0">
+                                    <Label x:Name="TabLabelPhotos" Text="Photos"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#8F9098" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Photos"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorPhotos" HeightRequest="2" Color="#4F63FF" IsVisible="False"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="5" Spacing="0">
+                                    <Label x:Name="TabLabelHistorique" Text="Historique"
+                                       HorizontalOptions="Center" Padding="4,10"
+                                       TextColor="#8F9098" FontSize="14">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnTabTapped" CommandParameter="Historique"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <BoxView x:Name="TabIndicatorHistorique" HeightRequest="2" Color="#4F63FF" IsVisible="False"/>
+                                </VerticalStackLayout>
+
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="#F0F1F7" Margin="0,0,0,20"/>
+
+                            <!-- CONTENU : INFORMATIONS -->
+                            <Grid x:Name="ContentInformations"
+                              ColumnDefinitions="*,*" ColumnSpacing="30">
+
+                                <!-- Description + Adresse -->
+                                <VerticalStackLayout Grid.Column="0" Spacing="20">
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="Description"
+                                           FontSize="17" FontAttributes="Bold" TextColor="#1D1D1F"/>
+                                        <Label Text="{Binding Bien.Description}"
+                                           FontSize="14" TextColor="#3C3C43" LineBreakMode="WordWrap"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="Adresse"
+                                           FontSize="17" FontAttributes="Bold" TextColor="#1D1D1F"/>
+                                        <Label Text="{Binding AdresseFormatee}"
+                                           FontSize="14" TextColor="#3C3C43" LineBreakMode="WordWrap"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+
+                                <!-- Caractéristiques -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="12">
+                                    <Label Text="Caractéristiques"
+                                       FontSize="17" FontAttributes="Bold" TextColor="#1D1D1F"/>
+                                    <Grid ColumnDefinitions="*,*"
+                                      RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                                      RowSpacing="8" ColumnSpacing="8">
+
+                                        <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding PiecesTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+                                        <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding ChambresTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+
+                                        <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding SalleBainTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+                                        <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding WcTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+
+                                        <Border Grid.Row="2" Grid.Column="0" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding CuisineTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+                                        <Border Grid.Row="2" Grid.Column="1" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding Bien.Chauffage}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+
+                                        <Border Grid.Row="3" Grid.Column="0" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding IsolationTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+                                        <Border Grid.Row="3" Grid.Column="1" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding GarageTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+
+                                        <Border Grid.Row="4" Grid.Column="0" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding CaveTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+                                        <Border Grid.Row="4" Grid.Column="1" BackgroundColor="#F0F1F7" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,8">
+                                            <Label Text="{Binding GrenierTexte}" TextColor="#1D1D1F" FontSize="13"/>
+                                        </Border>
+
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- CONTENU : DOCUMENTS -->
+                            <VerticalStackLayout x:Name="ContentDocuments" IsVisible="False" Spacing="16">
+
+                                <Grid ColumnDefinitions="160,Auto,*,Auto" ColumnSpacing="12">
+
+                                    <!-- Picker -->
+                                    <Border Grid.Column="0"
+                BackgroundColor="{StaticResource AppSurface}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 10"
+                Padding="4,0">
+                                        <Picker ItemsSource="{Binding DocumentsViewModel.TypesDocument}"
+                    SelectedItem="{Binding DocumentsViewModel.TypeAjoutSelectionne}"
+                    ItemDisplayBinding="{Binding Libelle}"
+                    Title="Type du document"
+                    TextColor="{StaticResource AppTextPrimary}" />
+                                    </Border>
+
+                                    <!-- Bouton Ajouter -->
+                                    <buttons:PrimaryButton
+            Grid.Column="1"
+            ButtonText="+ Ajouter un document"
+            Clicked="OnAjouterDocumentClicked" />
+
+                                    <!-- Spacer -->
+                                    <BoxView Grid.Column="2" Color="Transparent" />
+
+                                    <!-- Picker filtre -->
+                                    <Border Grid.Column="3"
+                BackgroundColor="{StaticResource AppSurface}"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 10"
+                Padding="4,0">
+                                        <Picker ItemsSource="{Binding DocumentsViewModel.TypesDocumentFiltre}"
+                    SelectedItem="{Binding DocumentsViewModel.TypeFiltreSelectionne}"
+                    ItemDisplayBinding="{Binding Libelle}"
+                    Title="Filtrer par type"
+                    TextColor="{StaticResource AppTextPrimary}"
+                    MinimumWidthRequest="140" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- En-têtes du tableau -->
+                                <Grid ColumnDefinitions="*,120,140,80" Padding="14,0">
+                                    <Label Grid.Column="0" Text="Nom du document"
+               FontAttributes="Bold"
+               TextColor="{StaticResource AppTextPrimary}"
+               FontSize="13" />
+                                    <Label Grid.Column="1" Text="Type"
+               FontAttributes="Bold"
+               TextColor="{StaticResource AppTextPrimary}"
+               FontSize="13" />
+                                    <Label Grid.Column="2" Text="Date d'ajout"
+               FontAttributes="Bold"
+               TextColor="{StaticResource AppTextPrimary}"
+               FontSize="13" />
+                                    <Label Grid.Column="3" Text="Actions"
+               FontAttributes="Bold"
+               TextColor="{StaticResource AppTextPrimary}"
+               FontSize="13"
+               HorizontalOptions="Center" />
+                                </Grid>
+
+                                <!-- Liste des documents -->
+                                <CollectionView ItemsSource="{Binding DocumentsViewModel.DocumentsFiltres}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun document associé à ce bien."
+                   Style="{StaticResource SecondaryText}"
+                   HorizontalOptions="Center"
+                   Margin="0,20" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BackgroundColor="{StaticResource AppSurface}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="14,10"
+                        Margin="0,3">
+                                                <Grid ColumnDefinitions="*,120,140,80">
+
+                                                    <!-- Nom du fichier -->
+                                                    <Label Grid.Column="0"
+                               Text="{Binding Description}"
+                               FontSize="14"
+                               TextColor="{StaticResource AppPrimary}"
+                               TextDecorations="Underline"
+                               VerticalOptions="Center"
+                               LineBreakMode="TailTruncation">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                    Tapped="OnOuvrirDocumentClicked"
+                                    CommandParameter="{Binding Chemin}" />
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+
+                                                    <!-- Badge type -->
+                                                    <components:StatusBadgeView
+                            Grid.Column="1"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start"
+                            Text="{Binding TypeDocument.Libelle}" />
+
+                                                    <!-- Date -->
+                                                    <Label Grid.Column="2"
+                               Text="{Binding DateCreation, StringFormat='{0:dd/MM/yyyy}'}"
+                               Style="{StaticResource SecondaryText}"
+                               VerticalOptions="Center" />
+
+                                                    <!-- Bouton supprimer -->
+                                                    <Image Grid.Column="3"
+                                                           Source="trash_solid.png"
+                                                           WidthRequest="18"
+                                                           HeightRequest="18"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Tapped="OnSupprimerDocumentClicked"
+                                                                CommandParameter="{Binding DocumentBienId}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+
+
+
+                            <!-- CONTENU : ÉVÉNEMENTS -->
+                            <VerticalStackLayout x:Name="ContentEvenements" IsVisible="False" Spacing="16">
+
+                                <Grid ColumnDefinitions="130,*,120,180" Padding="14,0">
+                                    <Label Grid.Column="0" Text="Date"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                    <Label Grid.Column="1" Text="Titre"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                    <Label Grid.Column="2" Text="Type"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                    <Label Grid.Column="3" Text="Participant(s)"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                </Grid>
+
+                                <!-- Liste des événements -->
+                                <CollectionView ItemsSource="{Binding EvenementsViewModel.Evenements}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun événement associé à ce bien."
+                                               Style="{StaticResource SecondaryText}"
+                                               HorizontalOptions="Center"
+                                               Margin="0,20" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BackgroundColor="{StaticResource AppSurface}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    Padding="0"
+                                                    Margin="0,3">
+                                                <Grid ColumnDefinitions="4,130,*,120,180">
+                                                    <BoxView Grid.Column="0"
+                                                             BackgroundColor="{StaticResource AppSidebar}"
+                                                             WidthRequest="4"
+                                                             HorizontalOptions="Fill"
+                                                             VerticalOptions="Fill" />
+
+                                                    <!-- Date + Heure -->
+                                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2" Margin="8,0,0,0">
+                                                        <Label Text="{Binding Date}"
+                                                               FontSize="14"
+                                                               TextColor="{StaticResource AppTextPrimary}" />
+                                                        <HorizontalStackLayout Spacing="4">
+                                                            <Image Source="clock_solid.png"
+                                                                   WidthRequest="12" HeightRequest="12"
+                                                                   VerticalOptions="Center" />
+                                                            <Label Text="{Binding Heure}"
+                                                                   Style="{StaticResource SecondaryText}"
+                                                                   FontSize="12" />
+                                                        </HorizontalStackLayout>
+                                                    </VerticalStackLayout>
+
+                                                    <!-- Description -->
+                                                    <Label Grid.Column="2"
+                                                           Text="{Binding Description}"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource AppTextPrimary}"
+                                                           VerticalOptions="Center"
+                                                           LineBreakMode="WordWrap" />
+
+                                                    <!-- Badge type -->
+                                                    <components:StatusBadgeView
+                                                        Grid.Column="3"
+                                                        Text="{Binding TypeLibelle}"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="Start" />
+
+                                                    <!-- Participants -->
+                                                    <Label Grid.Column="4"
+                                                           Text="{Binding ParticipantsFormates}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="13"
+                                                           VerticalOptions="Center"
+                                                           LineBreakMode="TailTruncation" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+
+                            <!-- CONTENU : CONTACTS -->
+                            <VerticalStackLayout x:Name="ContentContacts" IsVisible="False" Spacing="16">
+
+                                <Grid ColumnDefinitions="200,160,Auto" ColumnSpacing="12">
+
+                                    <Border Grid.Column="0" BackgroundColor="{StaticResource AppSurface}"
+                                            StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="4,0">
+                                        <Picker ItemsSource="{Binding ContactsViewModel.PersonnesDisponibles}"
+                                                SelectedItem="{Binding ContactsViewModel.PersonneSelectionnee}"
+                                                ItemDisplayBinding="{Binding NomComplet}"
+                                                Title="Sélectionner une personne"
+                                                TextColor="{StaticResource AppTextPrimary}" />
+                                    </Border>
+
+                                    <Border Grid.Column="1" BackgroundColor="{StaticResource AppSurface}"
+                                            StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="4,0">
+                                        <Picker ItemsSource="{Binding ContactsViewModel.RolesDisponibles}"
+                                                SelectedItem="{Binding ContactsViewModel.RoleSelectionne}"
+                                                Title="Rôle"
+                                                TextColor="{StaticResource AppTextPrimary}" />
+                                    </Border>
+
+                                    <buttons:PrimaryButton Grid.Column="2"
+                                        ButtonText="Ajouter un contact +"
+                                        Clicked="OnAjouterContactClicked" />
+                                </Grid>
+
+                                <!-- En-têtes -->
+                                <Grid ColumnDefinitions="*,140,220,60" Padding="14,0">
+                                    <Label Grid.Column="0" Text="Nom" FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                                    <Label Grid.Column="1" Text="Type" FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                                    <Label Grid.Column="2" Text="Contact" FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}" FontSize="13" />
+                                    <Label Grid.Column="3" Text="Actions" FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}" FontSize="13"
+                                           HorizontalOptions="Center" />
+                                </Grid>
+
+                                <!-- Liste -->
+                                <CollectionView ItemsSource="{Binding ContactsViewModel.ContactsFiltres}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun contact associé à ce bien."
+                                               Style="{StaticResource SecondaryText}"
+                                               HorizontalOptions="Center" Margin="0,20" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BackgroundColor="{StaticResource AppSurface}"
+                                                    StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                                    Padding="14,10" Margin="0,3">
+                                                <Grid ColumnDefinitions="*,140,220,60">
+                                                    <Label Grid.Column="0" Text="{Binding NomComplet}"
+                                                           FontSize="14" TextColor="{StaticResource AppTextPrimary}"
+                                                           VerticalOptions="Center" />
+                                                    <components:StatusBadgeView Grid.Column="1"
+                                                        Text="{Binding Role}"
+                                                        VerticalOptions="Center" HorizontalOptions="Start" />
+                                                    <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="2">
+                                                        <Label Text="{Binding Telephone}"
+                                                               Style="{StaticResource SecondaryText}" FontSize="13" />
+                                                        <Label Text="{Binding Email}"
+                                                               Style="{StaticResource SecondaryText}" FontSize="13" />
+                                                    </VerticalStackLayout>
+                                                    <Image Grid.Column="3" Source="trash_solid.png"
+                                                           WidthRequest="18" HeightRequest="18"
+                                                           HorizontalOptions="Center" VerticalOptions="Center">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="OnSupprimerContactClicked"
+                                                                                  CommandParameter="{Binding RelationId}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                            </VerticalStackLayout>
+
+
+                            <!-- CONTENU : PHOTOS -->
+                            <VerticalStackLayout x:Name="ContentPhotos" IsVisible="False" Spacing="16">
+
+                                <!-- Zone Parcourir -->
+                                <Border StrokeThickness="1.5"
+                                        Stroke="{StaticResource AppBorder}"
+                                        StrokeShape="RoundRectangle 12"
+                                        BackgroundColor="Transparent"
+                                        Padding="20,16">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnAjouterPhotosClicked" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                                        <Image Source="file_arrow_down_solid.png" WidthRequest="20" HeightRequest="20" />
+                                        <Label Text="Parcourir" FontSize="16" FontAttributes="Bold"
+                                               TextColor="{StaticResource AppPrimary}"
+                                               VerticalOptions="Center" />
+                                        <Label Text="pour ajouter des photos"
+                                               Style="{StaticResource SecondaryText}"
+                                               FontSize="16"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+
+                                <!-- Contenu principal -->
+                                <Grid ColumnDefinitions="*,220" ColumnSpacing="20">
+
+                                    <CollectionView Grid.Column="0"
+                                                    ItemsSource="{Binding PhotosViewModel.Photos}"
+                                                    ItemsLayout="VerticalGrid, 3">
+                                        <CollectionView.EmptyView>
+                                            <Label Text="Aucune photo pour ce bien."
+                                                   Style="{StaticResource SecondaryText}"
+                                                   HorizontalOptions="Center"
+                                                   Margin="0,20" />
+                                        </CollectionView.EmptyView>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="4">
+                                                    <!-- Photo -->
+                                                    <Border StrokeThickness="0"
+                                                            StrokeShape="RoundRectangle 10">
+                                                        <Border.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Tapped="OnPhotoClicked"
+                                                                CommandParameter="{Binding PhotoBienId}" />
+                                                        </Border.GestureRecognizers>
+                                                        <Image Source="{Binding Chemin}"
+                                                               Aspect="AspectFill"
+                                                               HeightRequest="160" />
+                                                    </Border>
+
+                                                    <!-- Couronne photo principale -->
+                                                    <Image Source="web_awesome_solid.png"
+                                                           WidthRequest="24"
+                                                           HeightRequest="24"
+                                                           Margin="6"
+                                                           HorizontalOptions="Start"
+                                                           VerticalOptions="Start"
+                                                           IsVisible="{Binding EstPrincipaleAffichage}" />
+
+                                                    <!-- Bouton supprimer -->
+                                                    <Border BackgroundColor="#CC000000"
+                                                            StrokeThickness="0"
+                                                            StrokeShape="RoundRectangle 8"
+                                                            Padding="6"
+                                                            Margin="6"
+                                                            HorizontalOptions="End"
+                                                            VerticalOptions="Start"
+                                                            WidthRequest="32"
+                                                            HeightRequest="32">
+                                                        <Border.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Tapped="OnSupprimerPhotoClicked"
+                                                                CommandParameter="{Binding PhotoBienId}" />
+                                                        </Border.GestureRecognizers>
+                                                        <Image Source="trash_solid.png"
+                                                               WidthRequest="16" HeightRequest="16"
+                                                               HorizontalOptions="Center"
+                                                               VerticalOptions="Center" />
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+                                    <!-- Panneau latéral -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="16">
+
+                                        <Border Style="{StaticResource CardSmall}">
+                                            <VerticalStackLayout Spacing="12">
+                                                <Label Text="Informations" Style="{StaticResource SectionHeader}" />
+
+                                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                                <Label Text="{Binding PhotosViewModel.NombrePhotos, StringFormat='{0} photo(s)'}"
+                                                       TextColor="{StaticResource AppTextPrimary}"
+                                                       FontSize="14" />
+
+                                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                                <!-- Photo principale -->
+                                                <Label Text="Photo principale"
+                                                       TextColor="{StaticResource AppTextPrimary}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="14" />
+
+                                                <Border StrokeThickness="2"
+                                                        Stroke="{StaticResource AppPrimary}"
+                                                        StrokeShape="RoundRectangle 8"
+                                                        IsVisible="{Binding PhotosViewModel.ADesPhotos}">
+                                                    <Image Source="{Binding PhotosViewModel.PhotoPrincipale.Chemin}"
+                                                           Aspect="AspectFill"
+                                                           HeightRequest="100" />
+                                                </Border>
+
+                                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                                <!-- Supprimer tout -->
+                                                <buttons:DeleteButton
+                                                    ButtonText="Supprimer toutes les photos"
+                                                    Clicked="OnSupprimerToutesPhotosClicked"
+                                                    IsVisible="{Binding PhotosViewModel.ADesPhotos}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </VerticalStackLayout>
+
+
+                            <!-- CONTENU : HISTORIQUE -->
+                            <VerticalStackLayout x:Name="ContentHistorique" IsVisible="False" Spacing="16">
+
+                                <!-- En-têtes -->
+                                <Grid ColumnDefinitions="130,*" Padding="14,0">
+                                    <Label Grid.Column="0" Text="Date"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                    <Label Grid.Column="1" Text="Statut"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource AppTextPrimary}"
+                                           FontSize="13" />
+                                </Grid>
+
+                                <CollectionView ItemsSource="{Binding Historique}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun historique disponible."
+                                               Style="{StaticResource SecondaryText}"
+                                               HorizontalOptions="Center"
+                                               Margin="0,20" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BackgroundColor="{StaticResource AppSurface}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    Padding="0"
+                                                    Margin="0,3">
+                                                <Grid ColumnDefinitions="4,130,*">
+
+                                                    <BoxView Grid.Column="0"
+                                                             BackgroundColor="{StaticResource AppSidebar}"
+                                                             HorizontalOptions="Fill"
+                                                             VerticalOptions="Fill" />
+
+                                                    <!-- Date + Heure -->
+                                                    <VerticalStackLayout Grid.Column="1"
+                                                                         VerticalOptions="Center"
+                                                                         Spacing="2"
+                                                                         Margin="8,10">
+                                                        <Label Text="{Binding DateChangement, StringFormat='{0:dd/MM/yyyy}'}"
+                                                               FontSize="14"
+                                                               TextColor="{StaticResource AppTextPrimary}" />
+                                                        <HorizontalStackLayout Spacing="4">
+                                                            <Image Source="clock_solid.png"
+                                                                   WidthRequest="12" HeightRequest="12"
+                                                                   VerticalOptions="Center" />
+                                                            <Label Text="{Binding DateChangement, StringFormat='{0:HH:mm}'}"
+                                                                   Style="{StaticResource SecondaryText}"
+                                                                   FontSize="12" />
+                                                        </HorizontalStackLayout>
+                                                    </VerticalStackLayout>
+
+                                                    <!-- Badge statut -->
+                                                    <components:StatusBadgeView
+                                                        Grid.Column="2"
+                                                        Text="{Binding StatutBien.Libelle}"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="Start"
+                                                        Margin="0,10" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    x:Class="EasyImmoMAUI.Views.DashboardPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+
+        <components:SidebarView Grid.Column="0" CurrentPage="Dashboard" />
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" Padding="30">
+
+            <!-- Header -->
+            <VerticalStackLayout Grid.Row="0" Margin="0,0,0,28" Spacing="4">
+                <Label Text="Dashboard" Style="{StaticResource PageTitle}" />
+                <Label Text="Vue d'ensemble de votre activité immobilière"
+                       Style="{StaticResource PageSubtitle}" />
+            </VerticalStackLayout>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,420"
+                  RowDefinitions="Auto,*"
+                  ColumnSpacing="24"
+                  RowSpacing="24">
+
+                <!-- Stat Cards -->
+                <Grid Grid.Row="0" Grid.ColumnSpan="2"
+                      ColumnDefinitions="*,*,*,*"
+                      ColumnSpacing="18">
+
+                    <components:StatCardView Grid.Column="0"
+                        Value="{Binding NombreBiensDisponibles}"
+                        Label="Biens disponibles"
+                        IconSource="house_solid.png" />
+
+                    <components:StatCardView Grid.Column="1"
+                        Value="{Binding NombreEvenementsAvenir}"
+                        Label="Événements cette semaine"
+                        IconSource="calendar_solid.png" />
+                </Grid>
+
+                <!-- Prochains événements -->
+                <Border Grid.Row="1" Grid.Column="0"
+                        Style="{StaticResource Card}">
+                    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+
+                        <Label Grid.Row="0"
+                               Text="Prochains événements"
+                               Style="{StaticResource CardTitle}"
+                               Margin="0,0,0,18" />
+
+                        <CollectionView Grid.Row="1"
+                                        ItemsSource="{Binding ProchainsEvenements}">
+                            <CollectionView.EmptyView>
+                                <Label Text="Aucun événement cette semaine."
+                                       Style="{StaticResource SecondaryText}"
+                                       HorizontalOptions="Center"
+                                       Margin="0,20" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardItem}">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout Grid.Column="0"
+                                                                 VerticalOptions="Center"
+                                                                 Spacing="3">
+                                                <Label Text="{Binding Description}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource AppTextPrimary}"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1" />
+                                                <HorizontalStackLayout Spacing="6">
+                                                    <Label Text="{Binding DateEvenement, StringFormat='{0:dd/MM}'}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="12" />
+                                                    <Label Text="·"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="12" />
+                                                    <Label Text="{Binding HeureDebut, StringFormat='{0:HH\\:mm}'}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="12" />
+                                                    <Label Text="{Binding Bien.TitreAnnonce}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="12"
+                                                           LineBreakMode="TailTruncation" />
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                            <components:StatusBadgeView
+                                                Grid.Column="1"
+                                                Text="{Binding TypeEvenement.Libelle}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Border Grid.Row="2"
+                                x:Name="VoirAgendaBorder"
+                                HorizontalOptions="Center"
+                                Padding="14,8"
+                                BackgroundColor="Transparent"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                Margin="0,8,0,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnVoirAgendaTapped" />
+                                <PointerGestureRecognizer
+                                    PointerEntered="OnVoirAgendaPointerEntered"
+                                    PointerExited="OnVoirAgendaPointerExited" />
+                            </Border.GestureRecognizers>
+                            <Label x:Name="VoirAgendaLabel"
+                                   Text="Voir l'agenda →"
+                                   Style="{StaticResource LinkText}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Derniers biens ajoutés -->
+                <Border Grid.Row="1" Grid.Column="1"
+                        Style="{StaticResource Card}">
+                    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+
+                        <Label Grid.Row="0"
+                               Text="Derniers biens ajoutés"
+                               Style="{StaticResource CardTitle}"
+                               Margin="0,0,0,18" />
+
+                        <CollectionView Grid.Row="1"
+                                        ItemsSource="{Binding DerniersBiens}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardItem}">
+                                        <Grid ColumnDefinitions="84,*,Auto" ColumnSpacing="14">
+
+                                            <Border StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 16"
+                                                    WidthRequest="84"
+                                                    HeightRequest="64">
+                                                <Image Source="{Binding PhotoPrincipale}"
+                                                       Aspect="AspectFill" />
+                                            </Border>
+
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                 VerticalOptions="Center"
+                                                                 Spacing="2">
+                                                <Label Text="{Binding TitreAnnonce}"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource AppTextPrimary}"
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1" />
+                                                <Label Text="{Binding Commune}"
+                                                       Style="{StaticResource SecondaryText}"
+                                                       FontSize="14" />
+                                            </VerticalStackLayout>
+
+                                            <components:StatusBadgeView
+                                                Grid.Column="2"
+                                                VerticalOptions="Center"
+                                                Text="{Binding Statut}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Border Grid.Row="2"
+                                x:Name="VoirTousLesBiensBorder"
+                                HorizontalOptions="Center"
+                                Padding="14,8"
+                                BackgroundColor="Transparent"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                Margin="0,8,0,0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnVoirTousLesBiensTapped" />
+                                <PointerGestureRecognizer
+                                    PointerEntered="OnVoirTousLesBiensPointerEntered"
+                                    PointerExited="OnVoirTousLesBiensPointerExited" />
+                            </Border.GestureRecognizers>
+                            <Label x:Name="VoirTousLesBiensLabel"
+                                   Text="Voir tous les biens →"
+                                   Style="{StaticResource LinkText}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

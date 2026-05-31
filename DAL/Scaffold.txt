@@ -1,0 +1,16 @@
+﻿    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var config = new ConfigurationBuilder()
+                          .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                          .AddJsonFile("appsettings.json", true, true)
+                          .Build();
+
+        optionsBuilder.UseLazyLoadingProxies()
+                      .UseSqlServer(config.GetConnectionString("EasyImmoDBSQLConnectionString"));
+    }
+
+{
+  "ConnectionStrings": {
+    "EasyImmoDBSQLConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=EasyImmo;Integrated Security=true; Encrypt=false",
+  }
+}

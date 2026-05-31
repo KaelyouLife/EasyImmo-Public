@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:buttons="clr-namespace:EasyImmoMAUI.Views.Components.Buttons"
+    x:Class="EasyImmoMAUI.Views.PersonnesView.PersonnesPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Personnes" />
+
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" Padding="30">
+
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,0,0,20"
+                  ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Personnes" Style="{StaticResource PageTitle}" />
+                    <Label Text="Gérez vos contacts" Style="{StaticResource PageSubtitle}" />
+                </VerticalStackLayout>
+                <buttons:SecondaryButton Grid.Column="1"
+                    ButtonText="Éditer"
+                    Clicked="OnEditerClicked" />
+                <buttons:DeleteButton Grid.Column="2"
+                    ButtonText="Supprimer"
+                    Clicked="OnSupprimerClicked" />
+            </Grid>
+
+            <!-- Contenu -->
+            <Grid Grid.Row="1" ColumnDefinitions="340,*" ColumnSpacing="20">
+
+                <!-- Colonne gauche -->
+                <Grid Grid.Column="0" RowDefinitions="Auto,*" RowSpacing="12">
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource AppSurface}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                Padding="12,0">
+                            <Grid ColumnDefinitions="20,*">
+                                <Entry Grid.Column="1"
+                                       Placeholder="Rechercher..."
+                                       Text="{Binding Recherche}"
+                                       TextColor="{StaticResource AppTextPrimary}"
+                                       PlaceholderColor="{StaticResource AppTextSecondary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                        <buttons:PrimaryButton Grid.Column="1"
+                            ButtonText="+ Ajouter"
+                            Clicked="OnAjouterClicked" />
+                    </Grid>
+
+                    <!-- Liste -->
+                    <CollectionView Grid.Row="1"
+                                    ItemsSource="{Binding Personnes}"
+                                    SelectedItem="{Binding PersonneSelectionnee}"
+                                    SelectionMode="Single">
+                        <CollectionView.EmptyView>
+                            <Label Text="Aucune personne trouvée."
+                                   Style="{StaticResource SecondaryText}"
+                                   HorizontalOptions="Center" Margin="0,20" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="{StaticResource AppSurface}"
+                                        Padding="14,10" Margin="0,3">
+                                    <Grid ColumnDefinitions="40,*">
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="{StaticResource AppBorder}"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 20"
+                                                WidthRequest="36" HeightRequest="36"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+                                            <Label Text="👤" FontSize="18"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+
+                                        <VerticalStackLayout Grid.Column="1"
+                                                             VerticalOptions="Center"
+                                                             Spacing="2" Margin="8,0,0,0">
+                                            <Label Text="{Binding NomComplet}"
+                                                   FontSize="14" FontAttributes="Bold"
+                                                   TextColor="{StaticResource AppTextPrimary}" />
+                                            <Label Text="{Binding Telephone}"
+                                                   Style="{StaticResource SecondaryText}"
+                                                   FontSize="12" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+
+                <!-- Colonne droite -->
+                <ScrollView Grid.Column="1">
+                    <VerticalStackLayout Spacing="16"
+                                         IsVisible="{Binding APersonneSelectionnee}">
+
+                        <Border Style="{StaticResource CardSmall}">
+                            <VerticalStackLayout Spacing="12">
+                                <Label Text="Informations" Style="{StaticResource SectionHeader}" />
+
+                                <Grid ColumnDefinitions="50,*" ColumnSpacing="14">
+                                    <Border Grid.Column="0"
+                                            BackgroundColor="{StaticResource AppBorder}"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 25"
+                                            WidthRequest="50" HeightRequest="50">
+                                        <Label Text="👤" FontSize="26"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1"
+                                                         VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding PersonneSelectionnee.NomComplet}"
+                                               FontSize="18" FontAttributes="Bold"
+                                               TextColor="{StaticResource AppTextPrimary}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                                <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="envelope_solid.png"
+                                           WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding PersonneSelectionnee.Email}"
+                                           TextColor="{StaticResource AppPrimary}"
+                                           FontSize="13" VerticalOptions="Center" />
+                                </Grid>
+                                <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="phone_solid.png"
+                                           WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding PersonneSelectionnee.Telephone}"
+                                           Style="{StaticResource SecondaryText}"
+                                           FontSize="13" VerticalOptions="Center" />
+                                </Grid>
+                                <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="cake_candles_solid.png"
+                                           WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding PersonneSelectionnee.DateNaissance, StringFormat='{0:dd/MM/yyyy}'}"
+                                           Style="{StaticResource SecondaryText}"
+                                           FontSize="13" VerticalOptions="Center" />
+                                </Grid>
+                                <Grid ColumnDefinitions="20,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="location_dot_solid.png"
+                                           WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding AdresseFormatee}"
+                                           Style="{StaticResource SecondaryText}"
+                                           FontSize="13" VerticalOptions="Center" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Style="{StaticResource CardSmall}">
+                            <VerticalStackLayout Spacing="12">
+                                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                                    <Label Grid.Column="0" Text="Biens liés"
+                                           Style="{StaticResource SectionHeader}" />
+                                    <Label Grid.Column="1" Text="+" FontSize="18"
+                                           TextColor="{StaticResource AppPrimary}"
+                                           VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnToggleAjouterBienClicked" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </Grid>
+
+                                <VerticalStackLayout x:Name="PanneauAjouterBien"
+                                                     IsVisible="False" Spacing="10">
+                                    <Grid ColumnDefinitions="*,120,Auto" ColumnSpacing="8">
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="{StaticResource AppSurfaceAlt}"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                                Padding="4,0">
+                                            <Picker ItemsSource="{Binding BiensDisponibles}"
+                                                    SelectedItem="{Binding BienALierSelectionne}"
+                                                    ItemDisplayBinding="{Binding TitreAnnonce}"
+                                                    Title="Bien"
+                                                    TextColor="{StaticResource AppTextPrimary}" />
+                                        </Border>
+                                        <Border Grid.Column="1"
+                                                BackgroundColor="{StaticResource AppSurfaceAlt}"
+                                                StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                                Padding="4,0">
+                                            <Picker ItemsSource="{Binding RolesDisponibles}"
+                                                    SelectedItem="{Binding RoleALier}"
+                                                    Title="Rôle"
+                                                    TextColor="{StaticResource AppTextPrimary}" />
+                                        </Border>
+                                        <buttons:PrimaryButton Grid.Column="2"
+                                            ButtonText="Lier"
+                                            Clicked="OnAjouterBienLieClicked" />
+                                    </Grid>
+                                </VerticalStackLayout>
+
+                                <CollectionView ItemsSource="{Binding BiensDeLaPersonne}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucun bien lié."
+                                               Style="{StaticResource SecondaryText}" FontSize="12" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="20,*,Auto" Margin="0,4"
+                                                  ColumnSpacing="8">
+                                                <Image Grid.Column="0" Source="house_solid.png"
+                                                       WidthRequest="14" HeightRequest="14" VerticalOptions="Center" />
+                                                <VerticalStackLayout Grid.Column="1"
+                                                                     VerticalOptions="Center" Spacing="2">
+                                                    <Label Text="{Binding Bien.TitreAnnonce}"
+                                                           FontSize="13"
+                                                           TextColor="{StaticResource AppTextPrimary}" />
+                                                    <Label Text="{Binding Role}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="12" />
+                                                </VerticalStackLayout>
+                                                <Image Grid.Column="2"
+                                                       Source="trash_solid.png"
+                                                       WidthRequest="14" HeightRequest="14"
+                                                       VerticalOptions="Center">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Tapped="OnSupprimerBienLieClicked"
+                                                            CommandParameter="{Binding RelationBienPersonneId}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Style="{StaticResource CardSmall}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Activités récentes" Style="{StaticResource SectionHeader}" />
+                                <CollectionView ItemsSource="{Binding DerniersEvenements}">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Aucune activité."
+                                               Style="{StaticResource SecondaryText}" FontSize="12" />
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                    <Label Text="{Binding Description}"
+                                                           FontSize="13"
+                                                           TextColor="{StaticResource AppTextPrimary}"
+                                                           LineBreakMode="TailTruncation" />
+                                                    <Label Text="{Binding TypeEvenement.Libelle}"
+                                                           Style="{StaticResource SecondaryText}"
+                                                           FontSize="11" />
+                                                </VerticalStackLayout>
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding DateEvenement, StringFormat='{0:dd/MM/yyyy}'}"
+                                                       Style="{StaticResource SecondaryText}"
+                                                       FontSize="11"
+                                                       VerticalOptions="Start" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Border>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

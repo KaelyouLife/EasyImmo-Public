@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:behaviors="clr-namespace:EasyImmoMAUI.Behaviors"
+    x:Class="EasyImmoMAUI.Views.EditerBienPage"
+    Title="Éditer un bien"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Biens" />
+
+        <ScrollView Grid.Column="1">
+            <VerticalStackLayout Padding="30" Spacing="24">
+
+                <Label Text="Éditer un bien" Style="{StaticResource PageTitle}" />
+
+                <!-- SECTION : Identification -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Identification" Style="{StaticResource SectionHeader}" />
+                        <Entry Placeholder="Référence *"
+                               Text="{Binding Reference}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               TextTransform="Uppercase" />
+                        <Entry Placeholder="Titre de l'annonce *"
+                               Text="{Binding TitreAnnonce}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                        <Picker Title="Type de bien *"
+                                ItemsSource="{Binding TypesBien}"
+                                ItemDisplayBinding="{Binding Libelle}"
+                                SelectedItem="{Binding TypeBienSelectionne}"
+                                TextColor="{StaticResource AppTextPrimary}" />
+                        <Picker Title="Statut *"
+                                ItemsSource="{Binding StatutsBien}"
+                                ItemDisplayBinding="{Binding Libelle}"
+                                SelectedItem="{Binding StatutSelectionne}"
+                                TextColor="{StaticResource AppTextPrimary}" />
+                        <Picker Title="PEB *"
+                                ItemsSource="{Binding PebOptions}"
+                                SelectedItem="{Binding PebSelectionne}"
+                                TextColor="{StaticResource AppTextPrimary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SECTION : Adresse -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Adresse" Style="{StaticResource SectionHeader}" />
+                        <Entry Placeholder="Rue"
+                               Text="{Binding Rue}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Numéro"
+                                   Text="{Binding Numero}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Entry Grid.Column="1" Placeholder="Boîte"
+                                   Text="{Binding Boite}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Code postal *"
+                                   Text="{Binding CodePostal}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Commune *"
+                                   Text="{Binding Commune}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SECTION : Prix -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Prix" Style="{StaticResource SectionHeader}" />
+                        <Entry Placeholder="Prix de vente (€)"
+                               Text="{Binding PrixVente}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry Placeholder="Loyer mensuel (€)"
+                               Text="{Binding LoyerMensuel}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Entry Placeholder="Charges mensuelles (€)"
+                               Text="{Binding ChargesMensuelles}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SECTION : Surfaces & pièces -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Surfaces &amp; pièces" Style="{StaticResource SectionHeader}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Surface habitable (m²)"
+                                   Text="{Binding SurfaceHabitable}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Surface totale (m²)"
+                                   Text="{Binding SurfaceTotale}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Nbre de pièces"
+                                   Text="{Binding NombrePieces}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Nbre de chambres"
+                                   Text="{Binding NombreChambres}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Salles de bain"
+                                   Text="{Binding NombreSalleBain}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="WC séparés"
+                                   Text="{Binding NombreWc}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Grid>
+                        <Entry Placeholder="Année de construction"
+                               Text="{Binding AnneeConstruction}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behaviors:NumericOnlyBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SECTION : Description & technique -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Description &amp; technique" Style="{StaticResource SectionHeader}" />
+                        <Editor Placeholder="Description du bien"
+                                Text="{Binding Description}"
+                                TextColor="{StaticResource AppTextPrimary}"
+                                AutoSize="TextChanges"
+                                MinimumHeightRequest="100" />
+                        <Entry Placeholder="Type de chauffage"
+                               Text="{Binding Chauffage}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                        <Entry Placeholder="Isolation"
+                               Text="{Binding Isolation}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SECTION : Équipements -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Équipements" Style="{StaticResource SectionHeader}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Libre"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding EstLibre}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Ascenseur"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Ascenseur}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Cuisine équipée"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding CuisineEquipee}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Cave"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Cave}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Grenier"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Grenier}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Garage"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Garage}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                        <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                            <Label Grid.Column="0" Text="Jardin"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Switch Grid.Column="1" IsToggled="{Binding Jardin}"
+                                    Style="{StaticResource PrimarySwitch}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Enregistrer les modifications"
+                        Clicked="OnSaveClicked"
+                        Style="{StaticResource PrimaryButton}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

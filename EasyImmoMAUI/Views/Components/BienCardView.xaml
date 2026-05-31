@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    x:Class="EasyImmoMAUI.Views.Components.BienCardView"
+    x:Name="Root">
+
+    <Border Style="{StaticResource Card}"
+            Padding="0">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={x:Reference Root}, Path=Command}"
+                CommandParameter="{Binding Source={x:Reference Root}, Path=BienId}" />
+        </Border.GestureRecognizers>
+
+        <Grid RowDefinitions="220,Auto">
+
+            <Border Grid.Row="0"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 24,24,0,0">
+                <Image Source="{Binding Source={x:Reference Root}, Path=PhotoSource}"
+                       Aspect="AspectFill" />
+            </Border>
+
+            <VerticalStackLayout Grid.Row="1"
+                                 Padding="18"
+                                 Spacing="10">
+
+                <Label Text="{Binding Source={x:Reference Root}, Path=TitreAnnonce}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource AppTextPrimary}"
+                       LineBreakMode="WordWrap"
+                       MaxLines="2" />
+
+                <Label Text="{Binding Source={x:Reference Root}, Path=TypeBien}"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource AppPrimary}" />
+
+                <HorizontalStackLayout Spacing="6">
+                    <Image Source="location_dot_solid.png"
+                           WidthRequest="14"
+                           HeightRequest="14"
+                           VerticalOptions="Center" />
+                    <Label Text="{Binding Source={x:Reference Root}, Path=CodePostal, StringFormat='{0},'}"
+                           Style="{StaticResource SecondaryText}"
+                           LineBreakMode="TailTruncation"
+                           VerticalOptions="Center" />
+                    <Label Text="{Binding Source={x:Reference Root}, Path=Commune}"
+                           Style="{StaticResource SecondaryText}"
+                           LineBreakMode="TailTruncation"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <components:StatusBadgeView
+                    Text="{Binding Source={x:Reference Root}, Path=Statut}"
+                    HorizontalOptions="End" />
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

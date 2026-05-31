@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:buttons="clr-namespace:EasyImmoMAUI.Views.Components.Buttons"
+    x:Class="EasyImmoMAUI.Views.ReglagesView.ReglagesPage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Reglages" />
+
+        <ScrollView Grid.Column="1">
+            <VerticalStackLayout Padding="30" Spacing="24">
+
+                <Label Text="Réglages" Style="{StaticResource PageTitle}" />
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto"
+                      ColumnSpacing="20" RowSpacing="20">
+
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardSmall}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Types de biens" Style="{StaticResource SectionHeader}" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Entry Grid.Column="0"
+                                       Placeholder="Nouveau type..."
+                                       Text="{Binding NouveauTypeBien}"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+                                <buttons:PrimaryButton Grid.Column="1"
+                                    ButtonText="+"
+                                    Clicked="OnAjouterTypeBienClicked" />
+                            </Grid>
+
+                            <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                            <CollectionView ItemsSource="{Binding TypesBien}">
+                                <CollectionView.EmptyView>
+                                    <Label Text="Aucun type de bien."
+                                           Style="{StaticResource SecondaryText}" FontSize="12" />
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Libelle}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource AppTextPrimary}"
+                                                   VerticalOptions="Center" />
+                                            <Image Grid.Column="1"
+                                                   Source="trash_solid.png"
+                                                   WidthRequest="14" HeightRequest="14"
+                                                   VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Tapped="OnSupprimerTypeBienClicked"
+                                                        CommandParameter="{Binding Id}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardSmall}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Types de documents" Style="{StaticResource SectionHeader}" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Entry Grid.Column="0"
+                                       Placeholder="Nouveau type..."
+                                       Text="{Binding NouveauTypeDocument}"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+                                <buttons:PrimaryButton Grid.Column="1"
+                                    ButtonText="+"
+                                    Clicked="OnAjouterTypeDocumentClicked" />
+                            </Grid>
+
+                            <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                            <CollectionView ItemsSource="{Binding TypesDocument}">
+                                <CollectionView.EmptyView>
+                                    <Label Text="Aucun type de document."
+                                           Style="{StaticResource SecondaryText}" FontSize="12" />
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Libelle}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource AppTextPrimary}"
+                                                   VerticalOptions="Center" />
+                                            <Image Grid.Column="1"
+                                                   Source="trash_solid.png"
+                                                   WidthRequest="14" HeightRequest="14"
+                                                   VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Tapped="OnSupprimerTypeDocumentClicked"
+                                                        CommandParameter="{Binding Id}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardSmall}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Types d'événements" Style="{StaticResource SectionHeader}" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Entry Grid.Column="0"
+                                       Placeholder="Nouveau type..."
+                                       Text="{Binding NouveauTypeEvenement}"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+                                <buttons:PrimaryButton Grid.Column="1"
+                                    ButtonText="+"
+                                    Clicked="OnAjouterTypeEvenementClicked" />
+                            </Grid>
+
+                            <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                            <CollectionView ItemsSource="{Binding TypesEvenement}">
+                                <CollectionView.EmptyView>
+                                    <Label Text="Aucun type d'événement."
+                                           Style="{StaticResource SecondaryText}" FontSize="12" />
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Libelle}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource AppTextPrimary}"
+                                                   VerticalOptions="Center" />
+                                            <Image Grid.Column="1"
+                                                   Source="trash_solid.png"
+                                                   WidthRequest="14" HeightRequest="14"
+                                                   VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Tapped="OnSupprimerTypeEvenementClicked"
+                                                        CommandParameter="{Binding Id}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardSmall}">
+                        <VerticalStackLayout Spacing="14">
+                            <Label Text="Statuts de biens" Style="{StaticResource SectionHeader}" />
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Entry Grid.Column="0"
+                                       Placeholder="Nouveau statut..."
+                                       Text="{Binding NouveauStatutBien}"
+                                       TextColor="{StaticResource AppTextPrimary}" />
+                                <buttons:PrimaryButton Grid.Column="1"
+                                    ButtonText="+"
+                                    Clicked="OnAjouterStatutBienClicked" />
+                            </Grid>
+
+                            <BoxView Style="{StaticResource SwitchSeparator}" />
+
+                            <CollectionView ItemsSource="{Binding StatutsBien}">
+                                <CollectionView.EmptyView>
+                                    <Label Text="Aucun statut de bien."
+                                           Style="{StaticResource SecondaryText}" FontSize="12" />
+                                </CollectionView.EmptyView>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Libelle}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource AppTextPrimary}"
+                                                   VerticalOptions="Center" />
+                                            <Image Grid.Column="1"
+                                                   Source="trash_solid.png"
+                                                   WidthRequest="14" HeightRequest="14"
+                                                   VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Tapped="OnSupprimerStatutBienClicked"
+                                                        CommandParameter="{Binding Id}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

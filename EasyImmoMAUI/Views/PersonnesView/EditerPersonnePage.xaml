@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:EasyImmoMAUI.Views.Components"
+    xmlns:behaviors="clr-namespace:EasyImmoMAUI.Behaviors"
+    x:Class="EasyImmoMAUI.Views.PersonnesView.EditerPersonnePage"
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid ColumnDefinitions="240,*">
+        <components:SidebarView Grid.Column="0" CurrentPage="Personnes" />
+
+        <ScrollView Grid.Column="1">
+            <VerticalStackLayout Padding="30" Spacing="24">
+
+                <Label Text="Éditer une personne" Style="{StaticResource PageTitle}" />
+
+                <!-- Identification -->
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Identification" Style="{StaticResource SectionHeader}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Prénom *"
+                                   Text="{Binding Prenom}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Entry Grid.Column="1" Placeholder="Nom *"
+                                   Text="{Binding Nom}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                        <Entry Placeholder="Email *"
+                               Text="{Binding Email}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Email" />
+                        <Entry Placeholder="Téléphone"
+                               Text="{Binding Telephone}"
+                               TextColor="{StaticResource AppTextPrimary}"
+                               Keyboard="Telephone" />
+                        <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{StaticResource AppSurfaceAlt}"
+                                    StrokeThickness="0" StrokeShape="RoundRectangle 10"
+                                    Padding="4,0">
+                                <Picker ItemsSource="{Binding SexeOptions}"
+                                        SelectedItem="{Binding SexeSelectionne}"
+                                        Title="Sexe *"
+                                        TextColor="{StaticResource AppTextPrimary}" />
+                            </Border>
+                            <Entry Grid.Column="1"
+                                   Placeholder="Date de naissance (JJ/MM/AAAA)"
+                                   Text="{Binding DateNaissance}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                        <Entry Placeholder="Compte bancaire (IBAN)"
+                               Text="{Binding CompteBancaire}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource CardSmall}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Adresse" Style="{StaticResource SectionHeader}" />
+                        <Entry Placeholder="Rue"
+                               Text="{Binding Rue}"
+                               TextColor="{StaticResource AppTextPrimary}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Numéro"
+                                   Text="{Binding Numero}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                            <Entry Grid.Column="1" Placeholder="Boîte"
+                                   Text="{Binding Boite}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="120,*" ColumnSpacing="12">
+                            <Entry Grid.Column="0" Placeholder="Code postal"
+                                   Text="{Binding CodePostal}"
+                                   TextColor="{StaticResource AppTextPrimary}"
+                                   Keyboard="Numeric">
+                                <Entry.Behaviors>
+                                    <behaviors:NumericOnlyBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
+                            <Entry Grid.Column="1" Placeholder="Commune"
+                                   Text="{Binding Commune}"
+                                   TextColor="{StaticResource AppTextPrimary}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Enregistrer les modifications"
+                        Clicked="OnSaveClicked"
+                        Style="{StaticResource PrimaryButton}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

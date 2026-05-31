@@ -1,0 +1,28 @@
+using System.Windows.Input;
+
+namespace EasyImmoMAUI.Views.Components.Buttons;
+public partial class PrimaryButton : ContentView
+{
+    public PrimaryButton()
+    {
+        InitializeComponent();
+    }
+
+    public event EventHandler? Clicked;
+
+    private void OnButtonClicked(object sender, EventArgs e)
+    => Clicked?.Invoke(this, e);
+
+    public static readonly BindableProperty ButtonTextProperty =
+        BindableProperty.Create(
+            nameof(ButtonText),
+            typeof(string),
+            typeof(PrimaryButton),
+            string.Empty);
+
+    public string ButtonText
+    {
+        get => (string)GetValue(ButtonTextProperty);
+        set => SetValue(ButtonTextProperty, value);
+    }
+}
